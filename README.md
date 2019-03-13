@@ -1,2 +1,3 @@
-This is a project starting point. 
+#Group name: groupX
+#This is a project starting point. 
 
