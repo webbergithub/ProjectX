@@ -8,9 +8,6 @@
 def dataprep(folder):
     
     return('Yes')
-    
-    
-    '''
     import glob
     import errno
     import pandas as pd
@@ -49,19 +46,16 @@ def dataprep(folder):
     lyrics_df['artist']=_artist
     lyrics_df['title']=_title
     lyrics_df['lyrics']=_lyrics
+    lyrics_df.to_csv('lyrics_df',encoding='utf-8')
+    return 1
     
-    return lyrics_df
-    '''
     
     
-if __name__ == '__main__':  
-    import argparse
+print('Enter your lyrics folder:')
+#folder = input()
+folder = '/Users/webbermb/Documents/Dropbox/ToolsForAnalytics/FinalProject/Lyrics/'
+dataprep(folder)
+print(1)
     
-    parser = argparse.ArgumentParser(description='Direct to lyrics folder')
-    parser.add_argument('file')
-    args = parser.parse_args()
-
-    print ('Yes')
-    #dataprep(args.file)
 
 
