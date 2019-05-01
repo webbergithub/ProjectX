@@ -50,7 +50,7 @@ def dataprep(folder):
                 l.append(content)
                 l1.append(x.split('~')[0])
                 l2.append(x.split('~')[1])
-                l3.append(x.split('~')[2])
+                l3.append(x.split('~')[::-1])
                 l4.append(len(content.split()))
                 for x in content.split():
                     #Using list of LWL Love Word List
