@@ -7,7 +7,6 @@
 
 def dataprep(folder):
     
-    return('Yes')
     import glob
     import errno
     import pandas as pd
