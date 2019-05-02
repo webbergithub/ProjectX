@@ -550,11 +550,23 @@ def dataprep(folder):
     return final
     
     
-if __name__ == '__main__':    
+if __name__ == '__main__':  
+    
+    
+    
     print('Enter your lyrics folder:')
-    #folder = input()
-    folder = '/Users/webbermb/Documents/Dropbox/ToolsForAnalytics/FinalProject/Lyrics/'
+    folder = input()
+    #folder = '/Users/webbermb/Documents/Dropbox/ToolsForAnalytics/FinalProject/Lyrics/'
     dataprep(folder)
+    '''
+    import argparse
+
+    parser = argparse.ArgumentParser(description='path to directory of the folder with lyric files')
+    parser.add_argument('file')
+    args = parser.parse_args()
+
+    dataprep(args.file)
+    '''
     print(1)
     
 
