@@ -9,8 +9,9 @@ def dataprep(folder):
    
     import pandas as pd
     import os
+    import glob
+    import errno
     lyrics=list()
-    import glob, os
     os.chdir(folder)
     for file in glob.glob("*.txt"):
         lyrics.append(file)
