@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[23]:
+
+
+# %load usingintersect.py
+#!/usr/bin/env python
+
 # In[31]:
 
 
@@ -499,11 +505,20 @@ def dataprep(folder):
         except IOError as exc:
             if exc.errno != errno.EISDIR:
                 raise  
-                
-                
+    lis=list()            
+    for i in l1:
+        if i!='000':
+            lis.append(i.lstrip('0'))
+        else:
+            lis.append(0)
+            
+    lis2=list()
+    for i in l2:
+        lis2.append(i.replace('-',' '))
+            
     df=pd.DataFrame()
-    df['id']=l1
-    df['artist']=l2
+    df['id']=lis
+    df['artist']=lis2
     df['song']=l3
     df['Lyrics']=l
     df['length']=l4
@@ -514,23 +529,22 @@ def dataprep(folder):
     #print(df)
     
     #calculating scores
-    df['length']=df['length']/(df['length'].max()-df['length'].min())
-    df['love']=df['love song']/(df['love song'].max()-df['love song'].min())
-    df['mood']=df['mood']/(df['mood'].max()-df['mood'].min())
-    df['kid_safe']=df['not kid']/(df['not kid'].max()-df['not kid'].min())
-    df['complexity']=df['complexity']/(df['complexity'].max()-df['complexity'].min())
+    df['length']=df['length']/(df['length'].max())
+    df['love']=df['love song']/(df['love song'].max())
+    df['mood']=df['mood']/(df['mood'].max())
+    df['kid_safe']=df['not kid']/(df['not kid'].max())
+    df['complexity']=df['complexity']/(df['complexity'].max())
     for x in df['song']:
         d.append(x[:-4])
     df['song']=d
-    df=df.drop(columns='Lyrics')
-
+    df=df.drop(columns=['Lyrics','love song','not kid'])
     
     
     json_=df.to_json(orient='records')
     final=dict()
     
     final['characterizations']=json_
-    print(final)
+    #print(final)
 
     
     
@@ -545,17 +559,38 @@ if __name__ == '__main__':
     
     
     #print('Enter your lyrics folder:')
-#     folder = 'C:/Users/Ankita Bhardwaj/Downloads/Lyrics'
+     folder = 'C:/Users/Ankita Bhardwaj/Downloads/Lyrics'
 #     #folder = '/Users/webbermb/Documents/Dropbox/ToolsForAnalytics/FinalProject/Lyrics/'
-#     dataprep(folder)
+     data=dataprep(folder)
+     print(data)
     
-    import argparse
+#     import argparse
 
-    parser = argparse.ArgumentParser(description='path to directory of the folder with lyric files')
-    parser.add_argument('file')
-    args = parser.parse_args()
+#     parser = argparse.ArgumentParser(description='path to directory of the folder with lyric files')
+#     parser.add_argument('file')
+#     args = parser.parse_args()
 
-    dataprep(args.file)
+#     dataprep(args.file)
     
-    print(1)
+    #print(1)
     
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
