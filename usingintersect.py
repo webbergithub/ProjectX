@@ -557,25 +557,5 @@ if __name__ == '__main__':
 
     dataprep(args.file)
     
-    #print(1)
+    print(1)
     
-
-
-
-# In[32]:
-
-
-ipython nbconvert — to script abc.ipynb
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
