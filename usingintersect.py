@@ -1,4 +1,10 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[31]:
+
+
+# %load usingintersect.py
 
 #Data preprocessing into Dataframe 
 #Include id, artist, title, lyrics columns
@@ -399,16 +405,25 @@ NWL=[
 
 def dataprep(folder):
     
-    import glob
-    import errno
+   
     import pandas as pd
+    import os
+    lyrics=list()
+    import glob, os
+    os.chdir(folder)
+    for file in glob.glob("*.txt"):
+        lyrics.append(file)
+#    print(lyrics)
     
-    if folder.endswith('/'):
-        path = folder + '*.txt'
-    else:
-        path = folder + '/*.txt'
+#     if folder.endswith('/'):
+#         path = folder + '*.txt'
+#     else:
+#         path = folder + '/*.txt'
+#     print(path)
         
-    files = glob.glob(path)
+#     files = glob.glob(path)
+
+
     #l is list for Lyrics
     l=list()
     # l1 is list for ID    
@@ -427,26 +442,28 @@ def dataprep(folder):
     l7=list()
     #l8 is list for complexity
     l8=list()
-    
+    d=list()
     LWL_set = set(LWL)
     NWL_set = set(NWL)
     SWL_set = set(SWL)
     
-    for name in files:
+    for name in lyrics:
         try:
-            with open(name) as fp:
-                list_ = (name.split("/"))
-                temp = list_[8]
-                temp2 = temp.split('.')
-                x=temp2[0]                
+            with open(name,encoding="utf8") as fp:
+                content = fp.read()
+
+#                 list_ = (name.split("/"))
+#                 temp = list_[8]
+#                 temp2 = temp.split('.')
+#                 x=temp2[0]                
                 count=0
                 count1=0
                 count2=0
-                content = fp.read()
+                
                 l.append(content)
-                l1.append(x.split('~')[0])
-                l2.append(x.split('~')[1])
-                l3.append(x.split('~')[::-1])
+                l1.append(name.split('~')[0])
+                l2.append(name.split('~')[1])
+                l3.append(name.split('~')[-1])
                 l4.append(len(content.split()))
                 
                 lyrics_set = (content.split())
@@ -470,7 +487,14 @@ def dataprep(folder):
                 l7.append(count2)
                 
                 l8.append(len(set(content.split())))
-                
+                #print(len(l1))
+#                 print(len(l2))
+#                 print(len(l3))
+#                 print(len(l4))
+#                 print(len(l5))
+#                 print(len(l6))
+#                 print(len(l7))
+#                 print(len(l8))
                 
         except IOError as exc:
             if exc.errno != errno.EISDIR:
@@ -478,70 +502,36 @@ def dataprep(folder):
                 
                 
     df=pd.DataFrame()
-    df['ID']=l1
-    df['Artist']=l2
-    df['Song']=l3
+    df['id']=l1
+    df['artist']=l2
+    df['song']=l3
     df['Lyrics']=l
     df['length']=l4
     df['love song']=l5
     df['mood']=l6
     df['not kid']=l7
     df['complexity']=l8
-    
+    #print(df)
     
     #calculating scores
-    df['song_length']=df['length']/df['length'].max()
-    df[df['love song']==0]['love song'].count()
-    df['song_love']=df['love song']/10
-    l=list(df['love song'])
-    len(df[df['song_love']>1])
-    df[df['mood']>100]
-    df['song_mood']=df['mood']/14
-    len(df[df['song_mood']>1])
-    df[df['not kid']>5]
-    l=list()
-    for x in df['song_mood']:
-        if x>1:
-            l.append(1)
-        else:
-            l.append(x)
-    df['song_mood']=l
-    l=list()
-    for x in df['song_love']:
-        if x>1:
-            l.append(1)
-        else:
-            l.append(x)
-            
-    df['song_love']=l
-    
-    df['Lyrics'][577]
-    len(df[df['not kid']>1])
-    df1=df[['length','complexity']]
-    from sklearn.preprocessing import MinMaxScaler
-    scaler = MinMaxScaler()
-    df1=pd.DataFrame(scaler.fit_transform(df[['complexity','length']]))
-    df['song_complexity']=df1[0]
-    df['song_length']=df1[1]
-    d=list()
-    for x in df['Song']:
+    df['length']=df['length']/(df['length'].max()-df['length'].min())
+    df['love']=df['love song']/(df['love song'].max()-df['love song'].min())
+    df['mood']=df['mood']/(df['mood'].max()-df['mood'].min())
+    df['kid_safe']=df['not kid']/(df['not kid'].max()-df['not kid'].min())
+    df['complexity']=df['complexity']/(df['complexity'].max()-df['complexity'].min())
+    for x in df['song']:
         d.append(x[:-4])
-    df['Song']=d
-    data=pd.DataFrame()
-    data['id']=df['ID']
-    data['artist']=df['Artist']
-    data['song']=df['Song']
-    data['kid_safe']=df['not kid']
-    data['love']=df['song_love']
-    data['mood']=df['song_mood']
-    data['length']=df['song_length']
-    data['complexity']=df['song_complexity']
+    df['song']=d
+    df=df.drop(columns='Lyrics')
+
     
     
-    json_=data.to_json(orient='records')
+    json_=df.to_json(orient='records')
     final=dict()
     
     final['characterizations']=json_
+    print(final)
+
     
     
     
@@ -554,11 +544,11 @@ if __name__ == '__main__':
     
     
     
-    print('Enter your lyrics folder:')
-    folder = input()
-    #folder = '/Users/webbermb/Documents/Dropbox/ToolsForAnalytics/FinalProject/Lyrics/'
-    dataprep(folder)
-    '''
+    #print('Enter your lyrics folder:')
+#     folder = 'C:/Users/Ankita Bhardwaj/Downloads/Lyrics'
+#     #folder = '/Users/webbermb/Documents/Dropbox/ToolsForAnalytics/FinalProject/Lyrics/'
+#     dataprep(folder)
+    
     import argparse
 
     parser = argparse.ArgumentParser(description='path to directory of the folder with lyric files')
@@ -566,8 +556,26 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     dataprep(args.file)
-    '''
-    print(1)
     
+    #print(1)
+    
+
+
+
+# In[32]:
+
+
+ipython nbconvert — to script abc.ipynb
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
 
 
