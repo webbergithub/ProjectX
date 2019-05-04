@@ -1,13 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[17]:
-
-
-# %load usingintersect.py
-#!/usr/bin/env python
-
-
 #Data preprocessing into Dataframe 
 #Include id, artist, title, lyrics columns
 #Set id as index
@@ -37,9 +27,9 @@ def dataprep(folder):
    
     import pandas as pd
     import os
-    lyrics=list()
-    import glob, os
+    import glob
     os.chdir(folder)
+    lyrics=list()
     for file in glob.glob("*.txt"):
         lyrics.append(file)
     
@@ -63,20 +53,13 @@ def dataprep(folder):
     #l8 is list for complexity
     l8=list()
     d=list()
-    LWL_set = set(LWL)
-    NWL_set = set(NWL)
-    SWL_set = set(SWL)
     
     for name in lyrics:
         try:
             with open(name,encoding="utf8") as fp:
-                content = fp.read()
+                content = fp.read().lower()
                 
-
-#                 list_ = (name.split("/"))
-#                 temp = list_[8]
-#                 temp2 = temp.split('.')
-#                 x=temp2[0]                
+               
                 count=0
                 count1=0
                 count2=0
@@ -88,7 +71,6 @@ def dataprep(folder):
                 a=length(content)
                 l4.append(a)
                 
-                lyrics_set = (content.split())
                 
                 #Calculating # of words for love song 
                 #using intersection of love word set and lyrics word set
@@ -109,18 +91,10 @@ def dataprep(folder):
                 l7.append(count2)
                 
                 l8.append(complexity(content))
-                #print(len(l1))
-#                 print(len(l2))
-#                 print(len(l3))
-#                 print(len(l4))
-#                 print(len(l5))
-#                 print(len(l6))
-#                 print(len(l7))
-#                 print(len(l8))
+
                 
-        except IOError as exc:
-            if exc.errno != errno.EISDIR:
-                raise  
+        except:
+            raise  
     lis=list()            
     for i in l1:
         if i!='000':
@@ -176,11 +150,8 @@ def dataprep(folder):
     final=dict()
     
     final['characterizations']=json_
-    #print(final)
 
-    
-    
-    
+       
     
     
     return final
@@ -189,46 +160,10 @@ def dataprep(folder):
 if __name__ == '__main__':  
     
     
-    
-    #print('Enter your lyrics folder:')
-    folder = 'C:/Users/Ankita Bhardwaj/Downloads/Lyrics'
-#     #folder = '/Users/webbermb/Documents/Dropbox/ToolsForAnalytics/FinalProject/Lyrics/'
+    import argparse
 
-    data=dataprep(folder)
+    parser = argparse.ArgumentParser(description='path to directory of the folder with lyric files')
+    parser.add_argument('file')
+    args = parser.parse_args()
+    data=dataprep(args.file)
     print(data)
-#     import argparse
-
-#     parser = argparse.ArgumentParser(description='path to directory of the folder with lyric files')
-#     parser.add_argument('file')
-#     args = parser.parse_args()
-
-#     dataprep(args.file)
-    
-    #print(1)
-    
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
