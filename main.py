@@ -4,8 +4,6 @@
 # In[5]:
 
 
-
-
 SWL_set = set(line.strip() for line in open('SwearWordList.txt'))
 NWL_set = set(line.strip() for line in open('NegativeWordsList.txt'))
 LWL_set = set(line.strip() for line in open('LoveWordsList.txt'))
@@ -113,7 +111,7 @@ def dataprep(folder):
     for i in l3:
         lis3.append(i.replace('-',' '))
             
-    df=pd.DataFrame()
+    df=pd.DataFrame()   #storing as a dataframe
     df['id']=lis
     df['artist']=lis2
     df['song']=lis3
@@ -139,7 +137,7 @@ def dataprep(folder):
     df['title']=d
     df=df.drop(columns=['Lyrics','love song','not kid','song'])
     
-    data=pd.DataFrame()
+    data=pd.DataFrame() #storing in a right format
     data['id']=df['id']
     data['artist']=df['artist']
     data['title']=df['title']
@@ -150,9 +148,9 @@ def dataprep(folder):
     data['complexity']=df['complexity']
     
     l=list()
-    for x in range(len(data)):
+    for x in range(len(data)):  #creating a list of dictionaries
         d=dict()
-        d['id']=data['id'][x]
+        d['id']=int(data['id'][x])
         d['artist']=data['artist'][x]
         d['title']=data['title'][x]
         d['kid_safe']=data['kid_safe'][x]
