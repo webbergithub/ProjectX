@@ -3,6 +3,7 @@
 
 # In[5]:
 
+import json
 
 SWL_set = set(line.strip() for line in open('SwearWordList.txt'))
 NWL_set = set(line.strip() for line in open('NegativeWordsList.txt'))
@@ -163,8 +164,7 @@ def dataprep(folder):
     final=dict()
     
     final['characterizations']=l
-    final=json.dumps(final)
-    
+    #final=json.dumps(final)
        
     
     
@@ -180,11 +180,17 @@ if __name__ == '__main__':
     parser.add_argument('file')
     args = parser.parse_args()
     data=dataprep(args.file)
-    print(data)
-
-
-# In[ ]:
-
+    with open('CSV-JSON-lyrics-out.json', 'w') as fp:
+        json.dump(
+            obj=data,
+            fp=fp,
+            indent=True,  # pretty printing
+            #sort_keys=True,  # sorting for easier lookup by a human, sort alphebetically
+        )
+    with open('CSV-JSON-lyrics-out.json','r') as fp:
+        print_data = json.load(fp)
+    
+        print(print_data)
 
 
 
