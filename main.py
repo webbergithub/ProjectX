@@ -1,7 +1,10 @@
-#Data preprocessing into Dataframe 
-#Include id, artist, title, lyrics columns
-#Set id as index
-#Loading List of token in different aspects 
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[5]:
+
+
+
 
 SWL_set = set(line.strip() for line in open('SwearWordList.txt'))
 NWL_set = set(line.strip() for line in open('NegativeWordsList.txt'))
@@ -23,7 +26,7 @@ def complexity(lyrics_content):
     return len(set(lyrics_content.split()))
 
 def dataprep(folder):
-    
+    import json
    
     import pandas as pd
     import os
@@ -140,17 +143,30 @@ def dataprep(folder):
     data['id']=df['id']
     data['artist']=df['artist']
     data['title']=df['title']
-    data['kid_safe']=1-df['kid_safe']
+    data['kid_safe']=1-df['kid_safe'] # For changing the maximum value to be the most kid safe
     data['love']=df['love']
-    data['mood']=1-df['mood']
+    data['mood']=1-df['mood'] # For changing the maximum value to be of the most happy song
     data['length']=df['length']
     data['complexity']=df['complexity']
     
-    json_=data.to_json(orient='records')
+    l=list()
+    for x in range(len(data)):
+        d=dict()
+        d['id']=data['id'][x]
+        d['artist']=data['artist'][x]
+        d['title']=data['title'][x]
+        d['kid_safe']=data['kid_safe'][x]
+        d['love']=data['love'][x]
+        d['mood']=data['mood'][x]
+        d['length']=data['length'][x]
+        d['complexity']=data['complexity'][x]
+        l.append(d)
+        
     final=dict()
     
-    final['characterizations']=json_
-
+    final['characterizations']=l
+    final=json.dumps(final)
+    
        
     
     
@@ -159,7 +175,7 @@ def dataprep(folder):
     
 if __name__ == '__main__':  
     
-    
+
     import argparse
 
     parser = argparse.ArgumentParser(description='path to directory of the folder with lyric files')
@@ -167,3 +183,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     data=dataprep(args.file)
     print(data)
+
+
+# In[ ]:
+
+
+
+
