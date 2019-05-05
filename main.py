@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[5]:
-
-import json
 
 SWL_set = set(line.strip() for line in open('SwearWordList.txt'))
 NWL_set = set(line.strip() for line in open('NegativeWordsList.txt'))
@@ -25,7 +19,6 @@ def complexity(lyrics_content):
     return len(set(lyrics_content.split()))
 
 def dataprep(folder):
-    import json
    
     import pandas as pd
     import os
@@ -173,9 +166,8 @@ def dataprep(folder):
     
 if __name__ == '__main__':  
     
-
+    import json
     import argparse
-
     parser = argparse.ArgumentParser(description='path to directory of the folder with lyric files')
     parser.add_argument('file')
     args = parser.parse_args()
