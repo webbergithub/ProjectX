@@ -46,6 +46,16 @@ Dimensions
     complexity: requires high level of vocabulary to understand
         0 is a very simple song: https://www.youtube.com/watch?v=EdMTl9zHQ9Y
         1 is a very complex song
+        
+## Code Logics
+
+1. importing lyrics and selected word lists
+2. token analysis in kid_safe, love, mood dimension
+3. counting length of the song for lenght dimension
+4. counting unique words for complexity dimension
+5. normalization by the max of each counts
+6. save as a json file with required format
+7. PROJECT DONE MIC DROP 
 
 
 ## Contributing
